@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nairobi Chapel GreenPark Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9; /* Light background */
+            color: #333;
+        }
+
+        header {
+            background-image: url('./images/visions.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better contrast */
+            box-sizing: border-box;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            text-transform: uppercase;
+            text-align: center;
+            color: bisque;
+        }
+
+        footer {
+            background-color: #333;
+            color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .container {
+            margin: 30px auto;
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: left;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input, textarea {
+            background-color: #f9f9f9;
+        }
+
+        button {
+            background-color: #19edd9;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        /* Add some responsive design for smaller screens */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Nairobi Chapel GreenPark Sunday School Register</h1>
+    </header>
+
+    <div class="container">
+        <h2>Generate Unique Number</h2>
+        <form id="generate-form">
+            <input type="text" name="name" placeholder="Enter your name" required>
+            <textarea name="names_of_children" placeholder="Enter children names" rows="4"></textarea>
+            <button type="submit">Generate</button>
+        </form>
+        <div class="output" id="generate-output"></div>
+
+        <h2>Find Details</h2>
+        <form id="details-form">
+            <input type="text" name="code" placeholder="Enter the generated code" required>
+            <button type="submit">Find Details</button>
+        </form>
+        <div class="output" id="details-output"></div>
+    </div>
+
+    <footer>
+        <p>Copyright © 2024 Nairobi Chapel GreenPark. All rights reserved by Scott [Code Zena].</p>
+    </footer>
+
+    <script>
+        document.getElementById('generate-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('/generate', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            const output = document.getElementById('generate-output');
+            if (data.success) {
+                output.textContent = `Unique Number: ${data.unique_number}`;
+            } else {
+                output.textContent = `Error: ${data.error}`;
+            }
+        });
+
+        document.getElementById('details-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('/details', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            const output = document.getElementById('details-output');
+            if (data.success) {
+                const details = data.details;
+                output.innerHTML = `
+                    <p><strong>Name:</strong> ${details.Name}</p>
+                    <p><strong>Names of Children:</strong> ${details['Names of Children']}</p>
+                    <p><strong>Unique Number:</strong> ${details['Unique Number']}</p>
+                    <p><strong>Date and Time:</strong> ${details['Date and Time']}</p>`;
+            } else {
+                output.textContent = `Error: ${data.error}`;
+            }
+        });
+    </script>
+</body>
+</html>
