@@ -1,0 +1,4 @@
+Flask==2.0.1
+Werkzeug==2.0.3
+Flask-Cors==3.0.10  # If you need to handle CORS
+Flask-SQLAlchemy==2.5.1  # If you plan to use SQLAlchemy for database interactions
