@@ -5,10 +5,11 @@ import hashlib
 from datetime import datetime
 from flask_cors import CORS
 
-CORS(app)
+
 
 
 app = Flask(__name__)
+CORS(app)
 
 # Define the path to the CSV file
 csv_file_path = os.path.expanduser('OurData.csv')
@@ -73,6 +74,10 @@ def display_details():
                     })
     
     return jsonify({"success": False, "error": "No details found for the entered code."})
+
+@app.route('/generate_code', methods=['GET'])
+def generate_code():
+    return jsonify({"code": "ABC123"})
 
 
 if __name__ == '__main__':
