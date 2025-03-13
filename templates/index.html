@@ -166,6 +166,14 @@
                 output.textContent = `Error: ${data.error}`;
             }
         });
+
+        fetch("https://ncgp-sunday-school.onrender.com/generate_code")
+  .then(response => response.json())
+  .then(data => {
+      document.getElementById("codeOutput").innerText = data.code;
+  })
+  .catch(error => console.error("Error:", error));
+
     </script>
 </body>
 </html>

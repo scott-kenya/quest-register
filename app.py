@@ -3,6 +3,10 @@ import csv
 import os
 import hashlib
 from datetime import datetime
+from flask_cors import CORS
+
+CORS(app)
+
 
 app = Flask(__name__)
 
